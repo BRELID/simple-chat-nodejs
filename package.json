@@ -1,0 +1,29 @@
+{
+    "name": "simple-chat-js",
+    "version": "0.1.0",
+    "description": "A simple Chat in Node.js app using Express and BotIU",
+    "main": "server.js",
+    "scripts": {
+        "start": "node ./server.js"
+    },
+    "dependencies": {
+        "ejs": "^2.6.2",
+        "ent": "^2.2.0",
+        "express": "^4.17.1",
+        "socket.io": "^2.2.0"
+    },
+    "engines": {
+        "node": "12.6.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/brelid/simple-chat-js"
+    },
+    "keywords": [
+        "node",
+        "chat",
+        "express"
+    ],
+    "author": "Brahim RELID",
+    "license": "MIT"
+}
