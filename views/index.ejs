@@ -22,6 +22,10 @@
             padding: 10px 20px;
             margin: auto;
         }
+        .time_msg{
+            font-size: 8px;
+            font-weight: 600;
+        }
     </style>
     <title>Simple Chat JS</title>
 </head>
@@ -61,14 +65,14 @@
 
         botui.message.add({
             type: "html",
-            content: "<i>" + content.pseudo + " is connected</i>"
+            content: "<i>" + content.pseudo + " is connected</i> - <span class=\"time_msg\">"+content.time+"</span>"
         })
     });
     socket.on("chatter_leave", content => {
         console.log("client left : " + content.pseudo)
         botui.message.add({
             type: "html",
-            content: "<i>" + content.pseudo + " is deconnected</i>"
+            content: "<i>" + content.pseudo + " is deconnected</i> - <span class=\"time_msg\">"+content.time+"</span>"
         })
     });
 
@@ -76,7 +80,7 @@
 
         botui.message.add({
             type: "html",
-            content: "<strong>" + content.pseudo + "</strong> : " + content.msg_chat
+            content: "<strong>" + content.pseudo + "</strong> : " + content.msg_chat+" - <span class=\"time_msg\">"+content.time+"</span>"
         })
     });
 
