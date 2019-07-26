@@ -17,12 +17,14 @@
             width: 400px;
             height: 300px;
         }
-        #form_msg{
+
+        #form_msg {
             width: 400px;
             padding: 10px 20px;
             margin: auto;
         }
-        .time_msg{
+
+        .time_msg {
             font-size: 8px;
             font-weight: 600;
         }
@@ -55,7 +57,13 @@
     var socket = io.connect('http://localhost:8080');
 
 
-    let pseudo = prompt('What is your pseudo ?');
+    let pseudo;
+
+    do {
+        pseudo = prompt('What is your pseudo ?');
+    } while (pseudo == "" || pseudo == null)
+
+
     document.querySelector("#header").innerHTML += "<h3>connected as <strong>" + pseudo + "</strong></h3>"
     socket.emit('pseudo', pseudo);
     document.querySelector("#msg_content").focus();
@@ -65,14 +73,16 @@
 
         botui.message.add({
             type: "html",
-            content: "<i>" + content.pseudo + " is connected</i> - <span class=\"time_msg\">"+content.time+"</span>"
+            content: "<i>" + content.pseudo + " is connected</i> - <span class=\"time_msg\">" + content
+                .time + "</span>"
         })
     });
     socket.on("chatter_leave", content => {
         console.log("client left : " + content.pseudo)
         botui.message.add({
             type: "html",
-            content: "<i>" + content.pseudo + " is deconnected</i> - <span class=\"time_msg\">"+content.time+"</span>"
+            content: "<i>" + content.pseudo + " is deconnected</i> - <span class=\"time_msg\">" +
+                content.time + "</span>"
         })
     });
 
@@ -80,20 +90,44 @@
 
         botui.message.add({
             type: "html",
-            content: "<strong>" + content.pseudo + "</strong> : " + content.msg_chat+" - <span class=\"time_msg\">"+content.time+"</span>"
+            content: "<strong>" + content.pseudo + "</strong> : " + content.msg_chat +
+                " - <span class=\"time_msg\">" + content.time + "</span>"
         })
     });
 
 
+    // We listen the click in the "send" button
+    // Nous écoutons le clique sur le bouton "envoyé"
     document.querySelector("#btn_send").addEventListener('click', () => {
+        sendToServer();
+    });
+
+    // We listen the "enter" key in the input message
+    // Nous écoutons la touche "entrer" dans le input message
+    document.querySelector("#msg_content").addEventListener('keypress', (e) => {
+        console.log("key:"+e.keyCode)
+        var key = e.which || e.keyCode;
+        if (key === 13 &&  document.querySelector("#msg_content").value != "") { // 13 is enter
+            sendToServer();
+        }
+    });
+
+
+    /**
+     * Send message to the server
+     * Envoi le message au serveur
+     * */
+    function sendToServer() {
         let input_msg = document.querySelector("#msg_content");
+
+        // If message value is not empty, we send the message to the server
+        // Si le message n'est pas vide, nous envoyons le message au serveur
         if (input_msg.value != "") {
             socket.emit("msg_content", input_msg.value)
             input_msg.value = "";
-
             input_msg.focus();
         }
-    });
+    }
 </script>
 
 </html>
